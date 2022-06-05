@@ -7,6 +7,7 @@
 
 set -e
 
+export PATH=$PATH:/home/mpiglet/.cargo/bin
 SRC=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 mkdir -p "$SRC/images/desktop" && cd "$_"
 
@@ -17,15 +18,16 @@ if ! [ -f rootfs ]; then
         --run-command "useradd -m -g sudo -p '' $USER ; chage -d 0 $USER"
 
         # Configure network. See ./example_network
-        --hostname crosvm-test
+        --hostname crosvm-test-2
         --copy-in "$SRC/guest/01-netcfg.yaml:/etc/netplan/"
-
+        --copy-in "$SRC/guest/sources.list:/etc/apt"
+	    --run-command "apt-get update"
         # Install a desktop environment to launch
         --install xfce4
 
         -o rootfs
     )
-    virt-builder ubuntu-20.04 "${builder_args[@]}"
+    virt-builder -v ubuntu-20.04 "${builder_args[@]}"
     # ANCHOR_END: build
 
     virt-builder --get-kernel ./rootfs -o .
@@ -38,7 +40,7 @@ fi
 #       log in on the command line first to set a password.
 cargo run --features=gpu,x,virgl_renderer -- run \
     --cpus 4 \
-    --mem 4096 \
+    --mem 8192 \
     --disable-sandbox \
     --gpu backend=virglrenderer,width=1920,height=1080 \
     --display-window-keyboard \
