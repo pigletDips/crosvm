@@ -6,7 +6,7 @@
 # Example VM with internet access and sshd
 
 set -e
-
+export PATH=$PATH:/home/mpiglet/.cargo/bin
 SRC=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 mkdir -p "$SRC/images/network" && cd "$_"
 
