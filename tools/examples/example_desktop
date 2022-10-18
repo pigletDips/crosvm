@@ -42,7 +42,8 @@ cargo run --features=gpu,x,virgl_renderer -- run \
     --cpus 4 \
     --mem 8192 \
     --disable-sandbox \
-    --gpu backend=virglrenderer,width=1920,height=1080 \
+    # change VM display resolution
+    --gpu backend=virglrenderer,width=3840,height=2160 \
     --display-window-keyboard \
     --display-window-mouse \
     --tap-name crosvm_tap \
