@@ -42,7 +42,6 @@ cargo run --features=gpu,x,virgl_renderer -- run \
     --cpus 4 \
     --mem 8192 \
     --disable-sandbox \
-    # change VM display resolution
     --gpu backend=virglrenderer,width=3840,height=2160 \
     --display-window-keyboard \
     --display-window-mouse \

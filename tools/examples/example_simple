@@ -27,7 +27,8 @@ fi
 # Run crosvm without sandboxing.
 # The rootfs is an image of a partitioned hard drive, so we need to tell
 # the kernel which partition to use (vda5 in case of ubuntu-20.04).
-/home/mpiglet/.cargo/bin/cargo run --no-default-features -- run \
+# usernama: the same passwd: phone passwod
+cargo run --no-default-features -- run \
     --disable-sandbox \
     --rwdisk ./rootfs \
     --initrd ./initrd.img-* \
