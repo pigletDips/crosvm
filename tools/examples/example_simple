@@ -15,6 +15,8 @@ if ! [ -f rootfs ]; then
     # Build a simple ubuntu image and create a user with no password.
     virt-builder ubuntu-20.04 \
         --run-command "useradd -m -g sudo -p '' $USER ; chage -d 0 $USER" \
+        # The sshd service need ssh key under /etc/ssh dir
+        --run-command "ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key"
         -o ./rootfs
     # ANCHOR_END: build
 

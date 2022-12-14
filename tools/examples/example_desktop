@@ -16,7 +16,8 @@ if ! [ -f rootfs ]; then
     builder_args=(
         # Create user with no password.
         --run-command "useradd -m -g sudo -p '' $USER ; chage -d 0 $USER"
-
+        # The sshd service need ssh key under /etc/ssh dir
+        --run-command "ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key"
         # Configure network. See ./example_network
         --hostname crosvm-test-2
         --copy-in "$SRC/guest/01-netcfg.yaml:/etc/netplan/"
@@ -24,7 +25,9 @@ if ! [ -f rootfs ]; then
 	    --run-command "apt-get update"
         # Install a desktop environment to launch
         --install xfce4
-
+        # Install ssh server
+        --install openssh-server
+        --ssh-inject "$USER:file:$HOME/.ssh/id_rsa.pub"
         -o rootfs
     )
     virt-builder -v ubuntu-20.04 "${builder_args[@]}"

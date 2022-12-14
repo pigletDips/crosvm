@@ -15,7 +15,8 @@ if ! [ -f rootfs ]; then
     builder_args=(
         # Create user with no password.
         --run-command "useradd -m -g sudo -p '' $USER ; chage -d 0 $USER"
-
+        # The sshd service need ssh key under /etc/ssh dir
+        --run-command "ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key"
         # Configure network via netplan config in 01-netcfg.yaml
         --hostname crosvm-test
         --copy-in "$SRC/guest/01-netcfg.yaml:/etc/netplan/"
